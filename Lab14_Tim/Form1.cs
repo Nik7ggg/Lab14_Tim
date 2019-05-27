@@ -32,10 +32,9 @@ namespace Lab14_Tim
             0.0036, 0.0004, 0.0190, 0.0174,//шщъы
             0.0032, 0.0640, 0.0201};//
 
-        string AlphabetENG = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        string AlphabetRUS = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
-        string AlphabetENGSmall = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
-        string AlphabetRUSSmall = "abcdefghijklmnopqrstuvwxyz";
+        string[] AlphabetENG = { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz" };
+        string[] AlphabetRUS = { "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ", "абвгдеёжзийклмнопрстуфхцчшщъыьэюя" };
+
 
 
 
@@ -45,41 +44,48 @@ namespace Lab14_Tim
             InitializeComponent();
         }
 
-        private string ProccesAsociationAlphabet(string encript_text,string Alphabet,double[] StaticFruquency)
+        private string ProccesAsociationAlphabet(string encript_text,string[] Alphabet,double[] StaticFruquency)
         {
+            int register=0;
             SortedDictionary<char, double> AlphabetMap = new SortedDictionary<char, double>();
-            double[] Frequency = new double[Alphabet.Length];
+            double[] Frequency = new double[Alphabet[register].Length];
             int lenght_clear_text = 0;
-            for (int i = 0; i < Alphabet.Length*2; i++)
+            foreach (var Symbols in Alphabet)
             {
-                AlphabetMap.Add(Alphabet[i], StaticFruquency[i]);
+                for (int i = 0; i < Symbols.Length; i++)
+                {
+                    AlphabetMap.Add(Symbols[i], StaticFruquency[i]);
+                }
             }
 
-            char[] DeCriptAlphabet = new char[Alphabet.Length];
-            for (int i = 0; i < Alphabet.Length; i++)
+            char[] DeCriptAlphabet = new char[Alphabet[register].Length];
+            for (int i = 0; i < Alphabet[register].Length; i++)
             {
                 Frequency[i] = 0;
             }
             foreach (char a in encript_text)//считаем кол-во символов без знаков пунктуации и пробела плюс частота
             {
-                for (int i = 0; i < Alphabet.Length; i++)
+                foreach (var Symbols in Alphabet)
                 {
-                    if (a == Alphabet[i])
+                    for (int i = 0; i < Symbols.Length; i++)
                     {
-                        lenght_clear_text++;
-                        Frequency[i]++;
+                        if (a == Symbols[i])
+                        {
+                            lenght_clear_text++;
+                            Frequency[i]++;
+                        }
                     }
                 }
             }
-            for (int i = 0; i < Alphabet.Length; i++)
+            for (int i = 0; i < Alphabet[register].Length; i++)
             {
                 Frequency[i] = Frequency[i] / lenght_clear_text;
             }
-            for (int k = 0; k < Alphabet.Length; k++)
+            for (int k = 0; k < Alphabet[register].Length; k++)
             {
                 double count = 1;
                 int index = 0;
-                for (int i = 0; i < Alphabet.Length; i++)
+                for (int i = 0; i < Alphabet[register].Length; i++)
                 {
                     double difference;
                     if (Frequency[k] > StaticFruquency[i])
@@ -96,15 +102,15 @@ namespace Lab14_Tim
                         index = i;
                     }
                 }
-                DeCriptAlphabet[k] = Alphabet[index];
+                DeCriptAlphabet[k] = Alphabet[register][index];
             }
             string DeCriptAlphabetStr = new string(DeCriptAlphabet);
             string outstr = null;
 
-            for (int i = 0; i < AlphabetENG.Length; i++)
+            for (int i = 0; i < Alphabet[register].Length; i++)
             {
                 outstr += "[ ";
-                outstr += Alphabet[i];
+                outstr += Alphabet[register][i];
                 outstr = outstr + "][" + Frequency[i] + "]";
                 outstr += "[ ";
                 outstr += DeCriptAlphabet[i];
@@ -118,12 +124,15 @@ namespace Lab14_Tim
             foreach (var a in encript_text)
             {
                 bool flag = false;
-                for (int i = 0; i < Alphabet.Length; i++)
+                foreach (var Symbols in Alphabet)
                 {
-                    if (a == Alphabet[i])
+                    for (int i = 0; i < Symbols.Length; i++)
                     {
-                        flag = true;
-                        open_text = open_text + DeCriptAlphabet[i];
+                        if (a == Symbols[i])
+                        {
+                            flag = true;
+                            open_text = open_text + DeCriptAlphabet[i];
+                        }
                     }
                 }
                 if (!flag)
@@ -132,50 +141,55 @@ namespace Lab14_Tim
                 }
             }
             DecryptTextBox.Text = open_text;
-
-            for (int i = 0; i < Alphabet.Length; i++)
+            GistogramChart.Series[0].Points.Clear();
+            GistogramChart.Series[1].Points.Clear();
+            for (int i = 0; i < Alphabet[register].Length; i++)
             {
                 double y = 0.0;
                 int index=0;
                 y = Frequency[i];
-                for (int k = 0; k < Alphabet.Length; k++)
+                for (int k = 0; k < Alphabet[register].Length; k++)
                 {
-                    if (Alphabet[k] == DeCriptAlphabet[i])
+                    if (Alphabet[register][k] == DeCriptAlphabet[i])
                     {
                         index = k;
                     }
                 }
-                string x = Convert.ToString(Alphabet[i]);
+                string x = Convert.ToString(Alphabet[register][i]);
                 GistogramChart.Series[0].Points.AddXY(x, y);
                 GistogramChart.Series[1].Points.AddXY(x, StaticFruquency[index]);
             }
             return DeCriptAlphabetStr;
         }
 
-        private void ProcessShifts(string Alphabet, string DeCriptAlphabet)
+        private void ProcessShifts(string[] Alphabet, string DeCriptAlphabet)
         {
-            int[,] probability_of_shifts = new int[Alphabet.Length, 2];
-            int[] Shifts = new int[Alphabet.Length];
-            for (int i = 0; i < Alphabet.Length; i++)
+            int register = 0;
+            int[,] probability_of_shifts = new int[Alphabet[register].Length, 2];
+            int[] Shifts = new int[Alphabet[register].Length];
+            for (int i = 0; i < Alphabet[register].Length; i++)
             {
                 int shift;
                 int index = 0;
-                for (int k = 0; k < Alphabet.Length; k++)
+                foreach (var Symbols in Alphabet)
                 {
-                    if (DeCriptAlphabet[i] == Alphabet[k])
+                    for (int k = 0; k < Symbols.Length; k++)
                     {
-                        index = k;
+                        if (DeCriptAlphabet[i] == Symbols[k])
+                        {
+                            index = k;
+                        }
                     }
                 }
                 shift = index - i;
                 if ((shift) < 0)
                 {
-                    shift = (shift + Alphabet.Length) % Alphabet.Length;
+                    shift = (shift + Alphabet[register].Length) % Alphabet[register].Length;
                 }
                 Shifts[i] = shift;
             }
             int count_number = 0;
-            for (int i = 0; i < Alphabet.Length; i++)
+            for (int i = 0; i < Alphabet[register].Length; i++)
             {
                 int index = 0;
                 bool flag = false;
@@ -203,7 +217,7 @@ namespace Lab14_Tim
             for (int i = 0; i < count_number; i++)
             {
                 outstr += "[ ";
-                outstr += probability_of_shifts[i, 0] + "][" + probability_of_shifts[i, 1] + "]";
+                outstr += probability_of_shifts[i, 0] + "] - [" + probability_of_shifts[i, 1] + "]";
                 outstr += "\r\n";
             }
 
@@ -219,24 +233,24 @@ namespace Lab14_Tim
             {
                 for (int k = 0; k < AlphabetENG.Length; k++)
                 {
-                    if (a == AlphabetENG[k])
+                    if (a == AlphabetENG[0][k])
                     {
                         count_eng_symbols++;
                     }
-                    if (a == AlphabetENGSmall[k])
+                    if (a == AlphabetENG[1][k])
                     {
                         count_eng_symbols++;
                     }
                 }
                 for (int k = 0; k < AlphabetRUS.Length; k++)
                 {
-                    if (a == AlphabetRUS[k])
+                    if (a == AlphabetRUS[0][k])
                     {
                         count_rus_symbols++;
                     }
-                    if (a == AlphabetRUSSmall[k])
+                    if (a == AlphabetRUS[1][k])
                     {
-                        count_eng_symbols++;
+                        count_rus_symbols++;
                     }
                 }
             }
@@ -299,6 +313,10 @@ namespace Lab14_Tim
 
         private void button4_Click(object sender, EventArgs e)
         {
+            GistogramChart.Series[0].Points.Clear();
+            GistogramChart.Series[1].Points.Clear();
+            ShowSwapBox.Clear();
+            ProbabilityShiftsBox.Clear();
             EncryptTextBox.Clear();
             DecryptTextBox.Clear();
         }
@@ -314,7 +332,8 @@ namespace Lab14_Tim
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string alphabet;
+            int register = 0;
+            string[] alphabet;
             if (ChooseAlphabet() == "ENG")
             {
                 alphabet = AlphabetENG;
@@ -331,23 +350,28 @@ namespace Lab14_Tim
             {
                 key = Convert.ToInt32(key_str);
             }
-            key = key % alphabet.Length;
+            key = key % alphabet[register].Length;
             foreach ( var symbol in encript_text)
             {
                 bool flag = false;
                 int index = 0;
-                for (int i=0;i< alphabet.Length;i++)
+                int size_of_symbols=0;
+                for (int k=0;k<alphabet.Length;k++)
                 {
-                    if  (symbol== alphabet[i])
+                    for (int i = 0; i < alphabet[k].Length; i++)
                     {
-                        flag = true;
-                        index = i + key;
-                        index = index % alphabet.Length;
+                        if (symbol == alphabet[k][i])
+                        {
+                            size_of_symbols = k;
+                            flag = true;
+                            index = i + key;
+                            index = index % alphabet[k].Length;
+                        }
                     }
                 }
                 if (flag)
                 {
-                    open_text += alphabet[index];
+                    open_text += alphabet[size_of_symbols][index];
                 }
                 else
                 {

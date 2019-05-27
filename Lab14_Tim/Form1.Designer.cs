@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.EncryptTextBox = new System.Windows.Forms.TextBox();
             this.DecryptTextBox = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
@@ -44,6 +44,9 @@
             this.ProbabilityShiftsBox = new System.Windows.Forms.TextBox();
             this.KeyBox = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.GistogramChart)).BeginInit();
             this.SuspendLayout();
             // 
@@ -97,31 +100,31 @@
             // 
             // GistogramChart
             // 
-            chartArea1.Name = "ChartArea1";
-            this.GistogramChart.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.GistogramChart.Legends.Add(legend1);
+            chartArea3.Name = "ChartArea1";
+            this.GistogramChart.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.GistogramChart.Legends.Add(legend3);
             this.GistogramChart.Location = new System.Drawing.Point(12, 411);
             this.GistogramChart.Name = "GistogramChart";
-            series1.ChartArea = "ChartArea1";
-            series1.IsXValueIndexed = true;
-            series1.Legend = "Legend1";
-            series1.LegendText = "Загруженный текст";
-            series1.MarkerSize = 1;
-            series1.Name = "Series1";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.LegendText = "Исходный алфавит";
-            series2.MarkerSize = 1;
-            series2.Name = "Series2";
-            this.GistogramChart.Series.Add(series1);
-            this.GistogramChart.Series.Add(series2);
+            series5.ChartArea = "ChartArea1";
+            series5.IsXValueIndexed = true;
+            series5.Legend = "Legend1";
+            series5.LegendText = "Загруженный текст";
+            series5.MarkerSize = 1;
+            series5.Name = "Series1";
+            series6.ChartArea = "ChartArea1";
+            series6.Legend = "Legend1";
+            series6.LegendText = "Исходный алфавит";
+            series6.MarkerSize = 1;
+            series6.Name = "Series2";
+            this.GistogramChart.Series.Add(series5);
+            this.GistogramChart.Series.Add(series6);
             this.GistogramChart.Size = new System.Drawing.Size(951, 320);
             this.GistogramChart.TabIndex = 7;
             this.GistogramChart.Text = "chart1";
-            title1.Name = "TItle0";
-            title1.Text = "Гистограмма встречаемости букв";
-            this.GistogramChart.Titles.Add(title1);
+            title3.Name = "TItle0";
+            title3.Text = "Гистограмма встречаемости букв";
+            this.GistogramChart.Titles.Add(title3);
             // 
             // ShowSwapBox
             // 
@@ -148,6 +151,7 @@
             this.ProbabilityShiftsBox.Multiline = true;
             this.ProbabilityShiftsBox.Name = "ProbabilityShiftsBox";
             this.ProbabilityShiftsBox.ReadOnly = true;
+            this.ProbabilityShiftsBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.ProbabilityShiftsBox.Size = new System.Drawing.Size(310, 320);
             this.ProbabilityShiftsBox.TabIndex = 10;
             // 
@@ -170,11 +174,41 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(999, 380);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(168, 17);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "Смещение - его частота";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 19);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(160, 17);
+            this.label3.TabIndex = 14;
+            this.label3.Text = "Зашифрованный текст";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(519, 19);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(116, 17);
+            this.label4.TabIndex = 15;
+            this.label4.Text = "Открытый текст";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1324, 749);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.KeyBox);
             this.Controls.Add(this.ProbabilityShiftsBox);
@@ -206,6 +240,9 @@
         private System.Windows.Forms.TextBox ProbabilityShiftsBox;
         private System.Windows.Forms.TextBox KeyBox;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
     }
 }
 
