@@ -287,12 +287,7 @@ namespace Lab14_Tim
 
         private void button2_Click(object sender, EventArgs e)
         {
-            double temp = 0;
-            for (int i=0;i<AlphabetRUS.Length;i++)
-            {
-                temp += StaticFruquencyRUS[i];
-            }
-            MessageBox.Show(Convert.ToString(temp));
+
             string encript_text = EncryptTextBox.Text;
             string DeCriptAlphabet=null;
             if (ChooseAlphabet() == "RUS")
